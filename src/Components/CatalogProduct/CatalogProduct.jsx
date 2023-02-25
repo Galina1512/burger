@@ -1,4 +1,5 @@
 import style from './CatalogProduct.module.css';
+import { API_URI } from '../../const';
 
 export const CatalogProduct = ({ item }) => (
     <article className="product">

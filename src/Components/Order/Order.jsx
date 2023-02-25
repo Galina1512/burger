@@ -1,14 +1,17 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { OrderGoods } from '../OrderGoods/OrderGoods';
+import { orderRequestAsync } from '../../Store/Order/orderSlice';
+import { useEffect } from 'react';
 import style from './Order.module.css';
 
-const orderList = [
-  'Супер сырный',
-  'Картошка фри',
-  'Жгучий хот-дог'
-];
-  
 
 export const Order = () =>{
+  const { totalPrice, totalCount, orderList, orderGoods } = useSelector(state => state.order || []);
+  const dispatch = useDispatch();
+
+  useEffect(() =>{
+    dispatch(orderRequestAsync());
+  }, [orderList.length]);
 
     return (
         <div className={style.order}>
@@ -16,19 +19,19 @@ export const Order = () =>{
           <div className={style.header} tabIndex="0" role="button">
             <h2 className={style.title}>Корзина</h2>
 
-            <span className={style.count}>4</span>
+            <span className={style.count}>{ totalCount }</span>
           </div>
 
           <div className={style.wrap_list}>
             <ul className={style.list}>
-              {orderList.map((item, i) =><OrderGoods key={i} item={item}/>)}
+              {orderGoods.map((item) =><OrderGoods key={item.id} {...item}/>)}
             </ul>
 
             <div className={style.total}>
               <p>Итого</p>
               <p>
-                <span className={style.amount}>1279</span>
-                <span className="currency">₽</span>
+                <span className={style.amount}>{totalPrice}</span>
+                <span className="currency">{' '}₽</span>
               </p>
             </div>
 

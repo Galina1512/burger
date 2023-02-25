@@ -3,6 +3,7 @@ import { OrderGoods } from '../OrderGoods/OrderGoods';
 import { orderRequestAsync } from '../../Store/Order/orderSlice';
 import { useEffect } from 'react';
 import style from './Order.module.css';
+import { openModal } from '../../Store/ModalDelivery/ModalDeliverySlice';
 
 
 export const Order = () =>{
@@ -35,7 +36,13 @@ export const Order = () =>{
               </p>
             </div>
 
-            <button className={style.submit}>Оформить заказ</button>
+            <button 
+            className={style.submit} 
+            disabled={orderGoods.length === 0}
+            onClick={() => {
+              dispatch(openModal())
+            }}
+            >Оформить заказ</button>
 
             <div className={style.apeal}>
               <p className={style.text}>Бесплатная доставка</p>

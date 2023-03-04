@@ -23,7 +23,7 @@ return (
                 {category.map((item, i) => 
                     <li className={style.item} key={item.title}>
                         <button className={classNames(style.button, activeCategory === i ? style.button_active : ' ')}
-                    style={{backgroundImage: `url(${API_URI}${POSTFIX}/${item.image})`}}
+                    style={{backgroundImage: `url(${API_URI}/${item.image})`}}
                     onClick={()=>{dispatch(changeCategory({indexCategory: i})) }}> { item.rus } </button>
                     </li>
                     )}

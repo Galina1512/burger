@@ -7,8 +7,16 @@ export const ModalDelivery = () => {
   const { isOpen } = useSelector(state => state.modal);
   const dispatch = useDispatch();
   
-  return isOpen && (
-  <div className={style.modal}>
+  return(
+
+    isOpen && (
+  <div className={style.modal}
+  onClick={({ target, currentTarget }) => {
+    if (target === currentTarget) {
+        dispatch(closeModal());
+    }
+  }}
+  >
     <div className={style.mdelivery}>
       <div className={style.container}>
         <h2 className={style.title}>Доставка</h2>
@@ -108,7 +116,8 @@ export const ModalDelivery = () => {
           />
         </svg>
       </button>
-    </>
+    </div>
   </div>
-);
+)
+) 
   }

@@ -21,7 +21,7 @@ export const localStorageMiddleware = store => next => action => {
 }
  export const orderRequestAsync = createAsyncThunk(
     'order/fetch',
-    (_, { getState }) => {
+    async (_, { getState }) => {
 const listId = getState().order.orderList.map(item => item.id);
 
         return fetch(`${API_URI}${POSTFIX}?list=${listId}`)

@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { clearOrder } from "../Order/orderSlice";
+import { closeModal } from "../ModalDelivery/ModalDeliverySlice";
 
 const initialState = {
     name: '',
@@ -24,7 +26,16 @@ const response = await fetch('https://cloudy-slash-rubidium.glitch.me/api/order'
     },
     body: JSON.stringify(data)
 }
-)
+);
+
+if (!response.ok) {
+    throw new Error (`Ошибка: ${response.statusText}`);
+}
+
+dispatch(clearOrder());
+dispatch(closeModal());
+
+    return await response.json();
         } catch (e) {
             return rejectWithValue(e.message)
         }

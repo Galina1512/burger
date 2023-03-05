@@ -65,6 +65,7 @@ dispatch(submitForm({...form, orderList}))
                 name='format'
                 value='pickup'
                 checked = { form.format === 'pickup'}
+                onChange = {handleInputChange}
               />
               <span>Самовывоз</span>
             </label>
@@ -76,12 +77,14 @@ dispatch(submitForm({...form, orderList}))
                 name='format'
                 value='delivery'
                 checked = {form.format === 'delivery'}
+                onChange = {handleInputChange}
               />
               <span>Доставка</span>
             </label>
           </fieldset>
+        {form.format === 'delivery' &&
 
-          <fieldset className={style.fieldset}>
+          (<fieldset className={style.fieldset}>
             <input
               className={style.input}
               type='text'
@@ -107,6 +110,8 @@ dispatch(submitForm({...form, orderList}))
               onChange={handleInputChange}
             />
           </fieldset>
+          )
+        }
         </form>
 
         <button className={style.submit} type='submit' form='delivery'>

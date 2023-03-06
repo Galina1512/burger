@@ -1,5 +1,6 @@
 .order {
   position: relative;
+  z-index: 5;
 }
 
 .wrapper {
@@ -55,19 +56,17 @@
   background: #F2F2F3;
   border-radius: 6px;
 }
-
 .wrap_list {
   display: none;
 }
 
-.open .wrap_list {
+.order_open .wrap_list {
   display: block;
 }
 
 .list {
   margin-bottom: 13px;
 }
-
 
 .total {
   display: flex;
@@ -133,6 +132,7 @@ opacity: 0.5;
   .order.open {
     width: 300px;
   }
+  
 }
 
 @media (min-width: 1024px) {
@@ -164,7 +164,6 @@ opacity: 0.5;
     height: 20px;
     font-size: 12px;
   }
-
 
   .wrap_list {
     display: block;

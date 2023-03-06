@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitForm, updateFormValue } from '../../Store/form/formSlice';
+import { changeTouch, submitForm, updateFormValue, validateForm } from '../../Store/form/formSlice';
 import { closeModal } from '../../Store/ModalDelivery/ModalDeliverySlice';
 import style from './ModalDelivery.module.css';
 
@@ -14,14 +14,22 @@ export const ModalDelivery = () => {
 dispatch(updateFormValue({
     field: e.target.name,
     value: e.target.value
-}))
+}),
+)
+    dispatch(validateForm());
+    dispatch(changeTouch());
   };
 
   const handleSubmit = (e) =>{
-e.preventDefault();
-dispatch(submitForm({...form, orderList}))  
+    e.preventDefault();
+    dispatch(validateForm());
+console.log(form.errors)
 
-}
+    if (Object.keys(form.errors).length === 0 && form.touch) {
+      dispatch(submitForm({...form, orderList}));  
+    }
+
+};
   
   return(
 
@@ -30,6 +38,8 @@ dispatch(submitForm({...form, orderList}))
   onClick={({ target, currentTarget }) => {
     if (target === currentTarget) {
         dispatch(closeModal());
+        dispatch(openNewModal());
+
     }
   }}
   >
@@ -47,6 +57,8 @@ dispatch(submitForm({...form, orderList}))
               placeholder='Ваше имя'
               onChange={handleInputChange}
             />
+
+          <label>
             <input
               className={style.input}
               type='tel'
@@ -55,6 +67,8 @@ dispatch(submitForm({...form, orderList}))
               placeholder='Телефон'
               onChange={handleInputChange}
             />
+            {form.errors.phone && <span>Укажите номер телефона</span>}
+            </label>
           </fieldset>
 
           <fieldset className={style.fieldset_radio}>
@@ -117,12 +131,19 @@ dispatch(submitForm({...form, orderList}))
         <button className={style.submit} type='submit' form='delivery'>
           Оформить
         </button>
+
+{form.touch && Object.entries(form.errors).map(([key, err]) => (
+  <p key ={key}>{err}</p>
+))
+}
+
       </div>
 
       <button className={style.modal__close} 
       type='button'
       onClick={() => {
-        dispatch(closeModal())
+        dispatch(closeModal());
+        dispatch(openNewModal());
       }}
       >
         <svg

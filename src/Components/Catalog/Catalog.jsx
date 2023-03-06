@@ -7,7 +7,7 @@ import { productRequestAsync } from "../../Store/product/productSlice";
 import { CatalogProduct } from "../CatalogProduct/CatalogProduct";
 
 export const Catalog = () =>{
-  const { products } = useSelector(state => state.product);
+  const { products, flag } = useSelector(state => state.product);
   const dispatch = useDispatch();
   const { category, activeCategory} = useSelector(state => state.category);
 
@@ -33,7 +33,7 @@ export const Catalog = () =>{
                     </li>
                       ))}
               </ul>
-              ) : (
+              ) : ( flag &&
   <h3> К сожалению, товар данной категории закончился.</h3>
 )}
             </div>

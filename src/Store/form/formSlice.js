@@ -10,6 +10,9 @@ const initialState = {
     address: '',
     floor: '',
     intercom: '',
+    error: 0,
+    errors: {},
+    touch: false,
 }
 const dispatch = useDispatch;
 
@@ -34,6 +37,7 @@ if (!response.ok) {
 
 dispatch(clearOrder());
 dispatch(closeModal());
+dispatch(openNewMassage());
 
     return await response.json();
         } catch (e) {
@@ -48,6 +52,16 @@ const formSlice = createSlice({
     reducers:{
         updateFormValue: (state, action) => {
             state[action.payload.field] = action.payload.value;
+        },
+        setError: (state, action) => ({
+            ...state,
+            errors: action.payload,
+        }),
+        clearError: state => {
+            state.error = {};
+        },
+        changeTouch: state => {
+           state.touch = true;
         }
     },
     extraReducers: builder => {
@@ -59,7 +73,7 @@ const formSlice = createSlice({
         })
         .addCase(submitForm.fulfilled, (state, action) => {
             state.status = 'success'; 
-            state.response = action.payload;      
+            state.response = action.payload;
         })
         .addCase(submitForm.rejected, (state, action) =>{
             state.status = 'failed'; 
@@ -68,5 +82,38 @@ const formSlice = createSlice({
     }
 });
 
-export const  { updateFormValue } = formSlice.actions;
+export const  { updateFormValue, setError, clearError, changeTouch } = formSlice.actions;
 export default formSlice.reducer;
+
+export const validateForm = () => (dispatch, getState) => {
+const form = getState().form;
+const errors = {};
+if( !form.name) {
+    errors.name = 'name is required'
+}
+if( !form.phone) {
+    errors.phone = 'name is required'
+}
+if( !form.address && form.format === 'delivery') {
+    errors.address = 'address is required'
+}
+if( !form.floor && form.format === 'delivery') {
+    errors.floor = 'floor is required'
+}
+if( !form.intercom && form.format === 'delivery') {
+    errors.intercom = 'intercom is required'
+}
+
+if (form.format ==='pickup') {
+    dispatch(updateFormValue({ field: 'address', value: ''}));
+    dispatch(updateFormValue({ field: 'floor', value: ''}));
+    dispatch(updateFormValue({ field: 'intercom', value: ''}));
+
+}
+
+if (Object.keys.length) {
+    dispatch(setError(errors))
+} else {
+    dispatch(clearError())
+}
+}

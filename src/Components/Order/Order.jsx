@@ -11,7 +11,6 @@ export const Order = () =>{
   const dispatch = useDispatch();
 
   const [openOrder, setOpenOrder] = useState(false);
-  console.log('openOrder:', openOrder)
 
   useEffect(() =>{
     dispatch(orderRequestAsync());

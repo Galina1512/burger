@@ -23,7 +23,7 @@ export const localStorageMiddleware = store => next => action => {
     'order/fetch',
     async (_, { getState }) => {
 const listId = getState().order.orderList.map(item => item.id);
-
+console.log(listId)
         return fetch(`${API_URI}${POSTFIX}?list=${listId}`)
         .then(req => req.json())
         .catch(error => ({ error }));

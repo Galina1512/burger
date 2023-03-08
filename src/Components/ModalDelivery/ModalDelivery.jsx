@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTouch, submitForm, updateFormValue, validateForm } from '../../Store/form/formSlice';
 import { closeModal } from '../../Store/ModalDelivery/ModalDeliverySlice';
+import { openNewModal } from '../../Store/ModalDelivery/NewModalSlice';
 import style from './ModalDelivery.module.css';
 
 export const ModalDelivery = () => {
@@ -26,10 +27,10 @@ dispatch(updateFormValue({
 console.log(form.errors)
 
     if (Object.keys(form.errors).length === 0 && form.touch) {
-      dispatch(submitForm({...form, orderList}));  
-    }
-
+      dispatch(submitForm({...form, orderList}))  
+    };
 };
+
   
   return(
 
@@ -37,9 +38,7 @@ console.log(form.errors)
   <div className={style.modal}
   onClick={({ target, currentTarget }) => {
     if (target === currentTarget) {
-        dispatch(closeModal());
-        dispatch(openNewModal());
-
+        dispatch(closeModal())
     }
   }}
   >
@@ -128,7 +127,11 @@ console.log(form.errors)
         }
         </form>
 
-        <button className={style.submit} type='submit' form='delivery'>
+        <button className={style.submit} type='submit' form='delivery'
+        onClick={() => {
+          dispatch(openNewModal())
+        }}
+    >
           Оформить
         </button>
 
@@ -142,8 +145,7 @@ console.log(form.errors)
       <button className={style.modal__close} 
       type='button'
       onClick={() => {
-        dispatch(closeModal());
-        dispatch(openNewModal());
+        dispatch(closeModal())
       }}
       >
         <svg
